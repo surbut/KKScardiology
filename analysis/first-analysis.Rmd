@@ -34,7 +34,6 @@ library("lattice")
 X=scale(X,center=TRUE,scale=TRUE)
 
 rownames(X)=colnames(X)=NULL
-print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 ```
 
 Let's look at the principal directions of variation:
@@ -52,12 +51,6 @@ abline(h=0.01)
 We can see that after column centering and scaling such that the metabolites are on the same scale and zero centered (so the first PC doesn't just capture the 'average' direction), about 18 components explain greater than 0.01 of the variation. Let's examibe the dimension reduction of this matrix.
 
 ```{r}
-print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
-
-
-layhow = as.matrix(c(rep(1,5),rep(2,5),rep(3,5),rep(4,5),rep(5,5),rep(6,5)))
-layout(t(layhow))
-zlim = c(min(X),max(X))
 
 #1st principal matrix 
 pcm1 = d[1]*matrix(u[,1])%*%t(matrix(v[,1]))
