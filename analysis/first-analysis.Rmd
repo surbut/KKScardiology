@@ -15,6 +15,7 @@ editor_options:
 ## Introduction
 
 First, let's read in the data and examine the number of significant components using PCs.
+
 ```{r}
 setwd("~/KKScardiology/analysis")
 
@@ -36,8 +37,14 @@ print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals
 
 
 #Take svd
-svd.X = svd(t(scale(t(X),center=TRUE,scale=FALSE)))
+svd.X = svd(t(scale(t(X),center=TRUE)))
 u = svd.X$u; v=svd.X$v; d=svd.X$d
+plot(d^2/sum(d^2),lty=3,pch=10,lwd=1,cex=0.5,ylab="Proportion Variation Explained")
+abline(h=0.01)
+
+````
+
+We can see that 
 print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 
 
@@ -59,3 +66,5 @@ print(levelplot(t(pcm1),col.regions = clrs,xlab = "Metabolites",ylab = "Individu
 print(levelplot(t(pcm2),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 print(levelplot(t(pcm3),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 ```
+
+We can see that 
