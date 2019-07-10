@@ -63,10 +63,13 @@ pcm3 = d[3]*matrix(u[,3])%*%t(matrix(v[,3]))
 
 print(levelplot(t(X),col.regions = colorRampPalette(c("blue", "red"))( 100 ) ,
                 xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
-print(levelplot(t(pcm1),#col.regions = clrs,
+
+print(levelplot(t(pcm1),col.regions = colorRampPalette(c("blue", "red"))( 100 ),
                 xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
-print(levelplot(t(pcm2),colorRampPalette(c("blue", "red"))( 100 ),
+
+print(levelplot(t(pcm2),col.regions = colorRampPalette(c("blue", "red"))( 100 ),
                 xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
-print(levelplot(t(pcm3),colorRampPalette(c("blue", "red"))( 100 ),
+
+print(levelplot(t(pcm3),col.regions = colorRampPalette(c("blue", "red"))( 100 ),
                 xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 ```
