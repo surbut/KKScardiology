@@ -29,7 +29,7 @@ d=svd(metab)$d
 X=as.matrix(metab)
 
 
-clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF","#E0F3F8","#91BFDB","#4575B4")))(64)
+#clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF","#E0F3F8","#91BFDB","#4575B4")))(64)
 library("lattice")
 X=scale(X,center=TRUE,scale=TRUE)
 
@@ -61,8 +61,12 @@ pcm2 = d[2]*matrix(u[,2])%*%t(matrix(v[,2]))
 #3rd principal matrix 
 pcm3 = d[3]*matrix(u[,3])%*%t(matrix(v[,3]))
 
-print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
-print(levelplot(t(pcm1),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
-print(levelplot(t(pcm2),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
-print(levelplot(t(pcm3),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+print(levelplot(t(X),col.regions = colorRampPalette(c("blue", "red"))( 100 ) ,
+                xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+print(levelplot(t(pcm1),#col.regions = clrs,
+                xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+print(levelplot(t(pcm2),colorRampPalette(c("blue", "red"))( 100 ),
+                xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+print(levelplot(t(pcm3),colorRampPalette(c("blue", "red"))( 100 ),
+                xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 ```
