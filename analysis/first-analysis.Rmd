@@ -1,0 +1,61 @@
+---
+title: "first-analysis"
+output:
+  html_document:
+    df_print: paged
+    toc: no
+  html_notebook: default
+  workflowr::wflow_html:
+    code_folding: show
+    toc: no
+editor_options:
+  chunk_output_type: inline
+---
+
+## Introduction
+
+First, let's read in the data
+```{r}
+setwd("~/KKScardiology/analysis")
+
+data=na.omit(data.frame(read.csv("../data/kts.csv",header = T)))##omitted 79 rows
+metab=data[,24:ncol(data)]
+v=svd(metab)$v
+u=svd(metab)$u
+d=svd(metab)$d
+
+X=metab
+
+
+clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF","#E0F3F8","#91BFDB","#4575B4")))(64)
+library("lattice")
+X=as.matrix(metab)
+
+rownames(X)=colnames(X)=NULL
+print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+
+
+#Take svd
+svd.X = svd(t(scale(t(X),center=TRUE,scale=FALSE)))
+u = svd.X$u; v=svd.X$v; d=svd.X$d
+print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+
+
+layhow = as.matrix(c(rep(1,5),rep(2,5),rep(3,5),rep(4,5),rep(5,5),rep(6,5)))
+layout(t(layhow))
+zlim = c(min(X),max(X))
+
+#1st principal matrix 
+pcm1 = d[1]*matrix(u[,1])%*%t(matrix(v[,1]))
+
+#2nd principal matrix 
+pcm2 = d[2]*matrix(u[,2])%*%t(matrix(v[,2]))
+
+#3rd principal matrix 
+pcm3 = d[3]*matrix(u[,3])%*%t(matrix(v[,3]))
+
+print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+print(levelplot(t(pcm1),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+print(levelplot(t(pcm2),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+print(levelplot(t(pcm3),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+```
