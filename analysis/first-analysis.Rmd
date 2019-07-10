@@ -14,7 +14,7 @@ editor_options:
 
 ## Introduction
 
-First, let's read in the data
+First, let's read in the data and examine the number of significant components using PCs.
 ```{r}
 setwd("~/KKScardiology/analysis")
 
