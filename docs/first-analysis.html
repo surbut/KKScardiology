@@ -432,10 +432,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytree0dad07231a1679446c302d0489ee7bfe647fe18etargetblank0dad072a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/KKScardiology/tree/0dad07231a1679446c302d0489ee7bfe647fe18e" target="_blank">0dad072</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytree0ef2ead404cb796337e884c8a300704dc4a3efa0targetblank0ef2eada"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/KKScardiology/tree/0ef2ead404cb796337e884c8a300704dc4a3efa0" target="_blank">0ef2ead</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytree0dad07231a1679446c302d0489ee7bfe647fe18etargetblank0dad072a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytree0ef2ead404cb796337e884c8a300704dc4a3efa0targetblank0ef2eada" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -482,6 +482,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/surbut/KKScardiology/blob/0ef2ead404cb796337e884c8a300704dc4a3efa0/analysis/first-analysis.Rmd" target="_blank">0ef2ead</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-10
+</td>
+<td>
+wflow_publish(“analysis/first-analysis.rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/surbut/KKScardiology/ad5cfef2849a4886e243cf7f6ff6047725593d58/docs/first-analysis.html" target="_blank">ad5cfef</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -598,16 +632,17 @@ wflow_publish(“analysis/first-analysis.Rmd”)
 
 data=na.omit(data.frame(read.csv(&quot;../data/kts.csv&quot;,header = T)))##omitted 79 rows
 metab=data[,24:ncol(data)]
+metab=metab[,-213]
 v=svd(metab)$v
 u=svd(metab)$u
 d=svd(metab)$d
 
-X=metab
+X=as.matrix(metab)
 
 
 clrs &lt;- colorRampPalette(rev(c(&quot;#D73027&quot;,&quot;#FC8D59&quot;,&quot;#FEE090&quot;,&quot;#FFFFBF&quot;,&quot;#E0F3F8&quot;,&quot;#91BFDB&quot;,&quot;#4575B4&quot;)))(64)
 library(&quot;lattice&quot;)
-X=as.matrix(metab)
+X=scale(X,center=TRUE,scale=TRUE)
 
 rownames(X)=colnames(X)=NULL
 print(levelplot(t(X),col.regions = clrs,xlab = &quot;Metabolites&quot;,ylab = &quot;Individuals&quot;,colorkey = TRUE))</code></pre>
@@ -649,72 +684,45 @@ Sarah Urbut
 </table>
 </div>
 </div>
+<p>Let’s look at the principal directions of variation:</p>
 <pre class="r"><code>#Take svd
-svd.X = svd(t(scale(t(X),center=TRUE)))
+svd.X = svd(X)
 u = svd.X$u; v=svd.X$v; d=svd.X$d
 plot(d^2/sum(d^2),lty=3,pch=10,lwd=1,cex=0.5,ylab=&quot;Proportion Variation Explained&quot;)
 abline(h=0.01)</code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-1-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We can see that after column centering and scaling such that the metabolites are on the same scale and zero centered (so the first PC doesn’t just capture the ‘average’ direction), about 18 components explain greater than 0.01 of the variation. Let’s examibe the dimension reduction of this matrix.</p>
+<pre class="r"><code>print(levelplot(t(X),col.regions = clrs,xlab = &quot;Metabolites&quot;,ylab = &quot;Individuals&quot;,colorkey = TRUE))</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>layhow = as.matrix(c(rep(1,5),rep(2,5),rep(3,5),rep(4,5),rep(5,5),rep(6,5)))
+layout(t(layhow))
+zlim = c(min(X),max(X))
+
+#1st principal matrix 
+pcm1 = d[1]*matrix(u[,1])%*%t(matrix(v[,1]))
+
+#2nd principal matrix 
+pcm2 = d[2]*matrix(u[,2])%*%t(matrix(v[,2]))
+
+#3rd principal matrix 
+pcm3 = d[3]*matrix(u[,3])%*%t(matrix(v[,3]))
+
+print(levelplot(t(X),col.regions = clrs,xlab = &quot;Metabolites&quot;,ylab = &quot;Individuals&quot;,colorkey = TRUE))</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(levelplot(t(pcm1),col.regions = clrs,xlab = &quot;Metabolites&quot;,ylab = &quot;Individuals&quot;,colorkey = TRUE))</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(levelplot(t(pcm2),col.regions = clrs,xlab = &quot;Metabolites&quot;,ylab = &quot;Individuals&quot;,colorkey = TRUE))</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>print(levelplot(t(pcm3),col.regions = clrs,xlab = &quot;Metabolites&quot;,ylab = &quot;Individuals&quot;,colorkey = TRUE))</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-3-5.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-2">
-Past versions of unnamed-chunk-1-2.png
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
 </button>
 </p>
-<div id="fig-unnamed-chunk-1-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/surbut/KKScardiology/blob/0e2a7b0071049d055a91d307b944fd91570107d4/docs/figure/first-analysis.Rmd/unnamed-chunk-1-2.png" target="_blank">0e2a7b0</a>
-</td>
-<td>
-Sarah Urbut
-</td>
-<td>
-2019-07-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>We can see that print(levelplot(t(X),col.regions = clrs,xlab = “Metabolites”,ylab = “Individuals”,colorkey = TRUE))</p>
-<p>layhow = as.matrix(c(rep(1,5),rep(2,5),rep(3,5),rep(4,5),rep(5,5),rep(6,5))) layout(t(layhow)) zlim = c(min(X),max(X))</p>
-<p>#1st principal matrix pcm1 = d[1]<em>matrix(u[,1])%</em>%t(matrix(v[,1]))</p>
-<p>#2nd principal matrix pcm2 = d[2]<em>matrix(u[,2])%</em>%t(matrix(v[,2]))</p>
-<p>#3rd principal matrix pcm3 = d[3]<em>matrix(u[,3])%</em>%t(matrix(v[,3]))</p>
-<p>print(levelplot(t(X),col.regions = clrs,xlab = “Metabolites”,ylab = “Individuals”,colorkey = TRUE)) print(levelplot(t(pcm1),col.regions = clrs,xlab = “Metabolites”,ylab = “Individuals”,colorkey = TRUE)) print(levelplot(t(pcm2),col.regions = clrs,xlab = “Metabolites”,ylab = “Individuals”,colorkey = TRUE)) print(levelplot(t(pcm3),col.regions = clrs,xlab = “Metabolites”,ylab = “Individuals”,colorkey = TRUE))</p>
-<pre><code>
-We can see that 
-
-&lt;br&gt;
-&lt;p&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-default btn-workflowr btn-workflowr-sessioninfo&quot;
-  data-toggle=&quot;collapse&quot; data-target=&quot;#workflowr-sessioninfo&quot;
-  style = &quot;display: block;&quot;&gt;
-  &lt;span class=&quot;glyphicon glyphicon-wrench&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
-  Session information
-&lt;/button&gt;
-&lt;/p&gt;
-
-&lt;div id=&quot;workflowr-sessioninfo&quot; class=&quot;collapse&quot;&gt;
-
-```r
-sessionInfo()</code></pre>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.5.2 (2018-12-20)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 Running under: macOS Mojave 10.14.5
