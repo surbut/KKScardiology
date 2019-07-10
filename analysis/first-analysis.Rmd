@@ -21,30 +21,37 @@ setwd("~/KKScardiology/analysis")
 
 data=na.omit(data.frame(read.csv("../data/kts.csv",header = T)))##omitted 79 rows
 metab=data[,24:ncol(data)]
+metab=metab[,-213]
 v=svd(metab)$v
 u=svd(metab)$u
 d=svd(metab)$d
 
-X=metab
+X=as.matrix(metab)
 
 
 clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF","#E0F3F8","#91BFDB","#4575B4")))(64)
 library("lattice")
-X=as.matrix(metab)
+X=scale(X,center=TRUE,scale=TRUE)
 
 rownames(X)=colnames(X)=NULL
 print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
+```
+
+Let's look at the principal directions of variation:
+
+```{r}
 
 
 #Take svd
-svd.X = svd(t(scale(t(X),center=TRUE)))
+svd.X = svd(X)
 u = svd.X$u; v=svd.X$v; d=svd.X$d
 plot(d^2/sum(d^2),lty=3,pch=10,lwd=1,cex=0.5,ylab="Proportion Variation Explained")
 abline(h=0.01)
+```
 
-````
+We can see that after column centering and scaling such that the metabolites are on the same scale and zero centered (so the first PC doesn't just capture the 'average' direction), about 18 components explain greater than 0.01 of the variation. Let's examibe the dimension reduction of this matrix.
 
-We can see that 
+```{r}
 print(levelplot(t(X),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 
 
@@ -66,5 +73,3 @@ print(levelplot(t(pcm1),col.regions = clrs,xlab = "Metabolites",ylab = "Individu
 print(levelplot(t(pcm2),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 print(levelplot(t(pcm3),col.regions = clrs,xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 ```
-
-We can see that 
