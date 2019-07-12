@@ -22,17 +22,12 @@ setwd("~/KKScardiology/analysis")
 data=na.omit(data.frame(read.csv("../data/kts.csv",header = T)))##omitted 79 rows
 metab=data[,24:ncol(data)]
 metab=metab[,-213]
-v=svd(metab)$v
-u=svd(metab)$u
-d=svd(metab)$d
-
 X=as.matrix(metab)
 
 
 #clrs <- colorRampPalette(rev(c("#D73027","#FC8D59","#FEE090","#FFFFBF","#E0F3F8","#91BFDB","#4575B4")))(64)
 library("lattice")
 X=scale(X,center=TRUE,scale=TRUE)
-
 rownames(X)=colnames(X)=NULL
 ```
 
@@ -40,12 +35,14 @@ Let's look at the principal directions of variation:
 
 ```{r}
 
-
+fit=lm(data[, "ef"] ~ as.matrix(metab))
 #Take svd
 svd.X = svd(X)
 u = svd.X$u; v=svd.X$v; d=svd.X$d
 plot(d^2/sum(d^2),lty=3,pch=10,lwd=1,cex=0.5,ylab="Proportion Variation Explained")
 abline(h=0.01)
+
+
 ```
 
 We can see that after column centering and scaling such that the metabolites are on the same scale and zero centered (so the first PC doesn't just capture the 'average' direction), about 18 components explain greater than 0.01 of the variation. Let's examibe the dimension reduction of this matrix.
@@ -73,3 +70,29 @@ print(levelplot(t(pcm2),col.regions = colorRampPalette(c("blue", "red"))( 100 ),
 print(levelplot(t(pcm3),col.regions = colorRampPalette(c("blue", "red"))( 100 ),
                 xlab = "Metabolites",ylab = "Individuals",colorkey = TRUE))
 ```
+
+
+We can model the ejection fraction for example as a function of the first 20 pcs and see which are significant after controlling for some covariates.
+
+Here, the model we will fit is :
+
+$$E(EF)=X[race","female","hypertension","hyperlipidemia","dm2","age","smoking","echo_bmi"+u[,1:20]] \beta$$
+
+```{r}
+covar=data[,c("race","female","hypertension","hyperlipidemia","dm2","age","smoking","echo_bmi")]
+covar$female=factor(covar$female);covar$race=factor(covar$race)
+
+predictors=cbind(covar,u[,1:20])
+fit <- lm(data$ef ~ ., data=predictors)
+summary(fit)
+```
+
+We can see that some of the most important predictors are captured in PC 4, 8, and 9). What do the capture?
+
+```{r}
+
+colnames(metab)[order(abs(v[,4]),decreasing = T)[1:10]]
+
+
+````
+
