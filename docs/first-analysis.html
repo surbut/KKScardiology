@@ -353,7 +353,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-07-10
+<strong>Last updated:</strong> 2019-07-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -432,10 +432,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytree7d48a7394a8110990b2e7b7ea2c8d1dcd46de533targetblank7d48a73a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/KKScardiology/tree/7d48a7394a8110990b2e7b7ea2c8d1dcd46de533" target="_blank">7d48a73</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytreefd1eff30bc78bc58352c2cd67d4191e93297f73btargetblankfd1eff3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/KKScardiology/tree/fd1eff30bc78bc58352c2cd67d4191e93297f73b" target="_blank">fd1eff3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytree7d48a7394a8110990b2e7b7ea2c8d1dcd46de533targetblank7d48a73a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytreefd1eff30bc78bc58352c2cd67d4191e93297f73btargetblankfd1eff3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -443,6 +443,7 @@ Great! You are using Git for version control. Tracking code development and conn
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    .Rhistory
     Ignored:    analysis/.DS_Store
     Ignored:    data/.DS_Store
 
@@ -483,6 +484,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/surbut/KKScardiology/blob/fd1eff30bc78bc58352c2cd67d4191e93297f73b/analysis/first-analysis.Rmd" target="_blank">fd1eff3</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-12
+</td>
+<td>
+wflow_publish(“~/KKScardiology/analysis/first-analysis.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/surbut/KKScardiology/f169d8fd90c3b91c05d2af7ce0682722558495e6/docs/first-analysis.html" target="_blank">f169d8f</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -736,20 +771,16 @@ wflow_publish(“analysis/first-analysis.Rmd”)
 data=na.omit(data.frame(read.csv(&quot;../data/kts.csv&quot;,header = T)))##omitted 79 rows
 metab=data[,24:ncol(data)]
 metab=metab[,-213]
-v=svd(metab)$v
-u=svd(metab)$u
-d=svd(metab)$d
-
 X=as.matrix(metab)
 
 
 #clrs &lt;- colorRampPalette(rev(c(&quot;#D73027&quot;,&quot;#FC8D59&quot;,&quot;#FEE090&quot;,&quot;#FFFFBF&quot;,&quot;#E0F3F8&quot;,&quot;#91BFDB&quot;,&quot;#4575B4&quot;)))(64)
 library(&quot;lattice&quot;)
 X=scale(X,center=TRUE,scale=TRUE)
-
 rownames(X)=colnames(X)=NULL</code></pre>
 <p>Let’s look at the principal directions of variation:</p>
-<pre class="r"><code>#Take svd
+<pre class="r"><code>fit=lm(data[, &quot;ef&quot;] ~ as.matrix(metab))
+#Take svd
 svd.X = svd(X)
 u = svd.X$u; v=svd.X$v; d=svd.X$d
 plot(d^2/sum(d^2),lty=3,pch=10,lwd=1,cex=0.5,ylab=&quot;Proportion Variation Explained&quot;)
@@ -880,6 +911,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/surbut/KKScardiology/blob/f169d8fd90c3b91c05d2af7ce0682722558495e6/docs/figure/first-analysis.Rmd/unnamed-chunk-3-2.png" target="_blank">f169d8f</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/surbut/KKScardiology/blob/4c8647c34333f4efd85571ce62b59b813cd54b16/docs/figure/first-analysis.Rmd/unnamed-chunk-3-2.png" target="_blank">4c8647c</a>
 </td>
 <td>
@@ -940,6 +982,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/surbut/KKScardiology/blob/f169d8fd90c3b91c05d2af7ce0682722558495e6/docs/figure/first-analysis.Rmd/unnamed-chunk-3-3.png" target="_blank">f169d8f</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/surbut/KKScardiology/blob/4c8647c34333f4efd85571ce62b59b813cd54b16/docs/figure/first-analysis.Rmd/unnamed-chunk-3-3.png" target="_blank">4c8647c</a>
@@ -1004,6 +1057,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/surbut/KKScardiology/blob/f169d8fd90c3b91c05d2af7ce0682722558495e6/docs/figure/first-analysis.Rmd/unnamed-chunk-3-4.png" target="_blank">f169d8f</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/surbut/KKScardiology/blob/4c8647c34333f4efd85571ce62b59b813cd54b16/docs/figure/first-analysis.Rmd/unnamed-chunk-3-4.png" target="_blank">4c8647c</a>
 </td>
 <td>
@@ -1039,6 +1103,66 @@ Sarah Urbut
 </table>
 </div>
 </div>
+<p>We can model the ejection fraction for example as a function of the first 20 pcs and see which are significant after controlling for some covariates.</p>
+<p>Here, the model we will fit is :</p>
+<p><span class="math display">\[E(EF)=X[race&quot;,&quot;female&quot;,&quot;hypertension&quot;,&quot;hyperlipidemia&quot;,&quot;dm2&quot;,&quot;age&quot;,&quot;smoking&quot;,&quot;echo_bmi&quot;+u[,1:20]] \beta\]</span></p>
+<pre class="r"><code>covar=data[,c(&quot;race&quot;,&quot;female&quot;,&quot;hypertension&quot;,&quot;hyperlipidemia&quot;,&quot;dm2&quot;,&quot;age&quot;,&quot;smoking&quot;,&quot;echo_bmi&quot;)]
+covar$female=factor(covar$female);covar$race=factor(covar$race)
+
+predictors=cbind(covar,u[,1:20])
+fit &lt;- lm(data$ef ~ ., data=predictors)
+summary(fit)</code></pre>
+<pre><code>
+Call:
+lm(formula = data$ef ~ ., data = predictors)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-22.529  -3.605   1.143   4.208  14.460 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     57.01705    8.01536   7.113 2.62e-11 ***
+raceblack       -6.10519    3.33925  -1.828  0.06917 .  
+racewhite       -6.94313    2.26416  -3.067  0.00250 ** 
+femalemale      -0.54232    1.48295  -0.366  0.71502    
+hypertension     2.59478    1.48978   1.742  0.08328 .  
+hyperlipidemia   0.07729    1.12998   0.068  0.94555    
+dm2             -1.95550    1.42780  -1.370  0.17253    
+age              0.04537    0.08285   0.548  0.58463    
+smoking          0.66717    1.14996   0.580  0.56253    
+echo_bmi         0.09999    0.10232   0.977  0.32975    
+`1`             13.52669    7.54327   1.793  0.07463 .  
+`2`              3.58261    7.51729   0.477  0.63424    
+`3`            -14.87900    7.61794  -1.953  0.05236 .  
+`4`            -26.08869    9.37724  -2.782  0.00598 ** 
+`5`            -13.24052    9.53460  -1.389  0.16666    
+`6`            -15.94787    8.13941  -1.959  0.05163 .  
+`7`              5.10164    7.29449   0.699  0.48522    
+`8`            -17.17377    7.86912  -2.182  0.03038 *  
+`9`            -14.73842    7.43673  -1.982  0.04903 *  
+`10`           -11.92280    7.45534  -1.599  0.11153    
+`11`            10.80270    8.78197   1.230  0.22027    
+`12`            -2.47986    8.96793  -0.277  0.78246    
+`13`            -3.28456    7.22176  -0.455  0.64979    
+`14`            -8.78046    7.49236  -1.172  0.24279    
+`15`            -6.63742    7.79708  -0.851  0.39576    
+`16`             2.38420    7.27105   0.328  0.74337    
+`17`           -10.09743    7.74151  -1.304  0.19380    
+`18`             9.00850    7.41277   1.215  0.22586    
+`19`            -6.26500    7.40890  -0.846  0.39890    
+`20`             4.48392    7.47209   0.600  0.54921    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 6.933 on 179 degrees of freedom
+Multiple R-squared:  0.3232,    Adjusted R-squared:  0.2135 
+F-statistic: 2.947 on 29 and 179 DF,  p-value: 6.295e-06</code></pre>
+<p>We can see that some of the most important predictors are captured in PC 4, 8, and 9). What do the capture?</p>
+<pre class="r"><code>colnames(metab)[order(abs(v[,4]),decreasing = T)[1:10]]</code></pre>
+<pre><code> [1] &quot;BNP&quot;            &quot;ACE2&quot;           &quot;NTproBNP_OLINK&quot; &quot;LEP&quot;           
+ [5] &quot;IGFBP1&quot;         &quot;CCL20&quot;          &quot;SCF&quot;            &quot;SLAMF7&quot;        
+ [9] &quot;IGFBP7&quot;         &quot;GH&quot;            </code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
