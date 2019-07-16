@@ -516,10 +516,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytreed17851a0a9ccdfaa45777db768e4b0b06e51b641targetblankd17851aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/KKScardiology/tree/d17851a0a9ccdfaa45777db768e4b0b06e51b641" target="_blank">d17851a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytree94cae8fd1d5ebf09f43284ec1caf3b924e8ce113targetblank94cae8fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/KKScardiology/tree/94cae8fd1d5ebf09f43284ec1caf3b924e8ce113" target="_blank">94cae8f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytreed17851a0a9ccdfaa45777db768e4b0b06e51b641targetblankd17851aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutKKScardiologytree94cae8fd1d5ebf09f43284ec1caf3b924e8ce113targetblank94cae8fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -571,6 +571,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/surbut/KKScardiology/94cae8fd1d5ebf09f43284ec1caf3b924e8ce113/docs/helpingwithR.html" target="_blank">94cae8f</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 rmd
@@ -718,6 +735,43 @@ F-statistic: 468.7 on 4 and 205 DF,  p-value: &lt; 2.2e-16</code></pre>
 points(data$FGF21,data$kccq_score,col=&quot;blue&quot;,pch=1)
 legend(2,60,c(&quot;fittedvalues&quot;,&quot;originalvalues&quot;),pch=c(2,1),col=c(&quot;red&quot;,&quot;blue&quot;))</code></pre>
 <p><img src="figure/helpingwithR.rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/surbut/KKScardiology/blob/94cae8fd1d5ebf09f43284ec1caf3b924e8ce113/docs/figure/helpingwithR.rmd/unnamed-chunk-6-1.png" target="_blank">94cae8f</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="{"><code>this doesn&#39;t seem correct. The Asian group is missing. How can I code Asian, Black, and White as separate groups (eg, 1, 2, 3). Again, I think I need to account for multiple comparisons using FDR or Bonferroni. Ultimately, I would ideally like to account for race in model 1 for to see if it affects KCCQ score on FGF21</code></pre>
 <p>The best way is to examine the model matrix and see how the linear algebra is done. It looks like asian is treated as the intercept case, and then black and white are added to this. So, a white individual’s kccq score would be the intercept term + white coefficient, and a black individual would be the intercept + -1.24, and asian would be just the intercet. I’ve shown you the predictions for a sample white, black and asian individual.</p>
 <pre class="r"><code>model2=lm(data$FGF21 ~data$race)
@@ -750,6 +804,43 @@ head(model.matrix(model2))</code></pre>
 6              0              0              1</code></pre>
 <pre class="r"><code>boxplot(data$FGF21 ~data$race-1)</code></pre>
 <p><img src="figure/helpingwithR.rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/surbut/KKScardiology/blob/94cae8fd1d5ebf09f43284ec1caf3b924e8ce113/docs/figure/helpingwithR.rmd/unnamed-chunk-8-1.png" target="_blank">94cae8f</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2019-07-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here you do NOT need to control for multiple comparisons because you are really just doing a 1 factor (3 level) ANOVA: there is just one variable with three different levels. I hope this helps, and PLEASE let me know if I can help. SO glad you like R!</p>
 <br>
 <p>
