@@ -1,0 +1,56 @@
+---
+title: "table1"
+author: "Sarah Urbut"
+date: "2019-07-20"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+```{r}
+
+data=na.omit(na.omit(data.frame(read.csv("~/desktop/KTS data.csv",header=T))))
+dim(data)
+summary(data$FGF21)
+
+
+model1=lm(formula = data$kccq_score ~ data$FGF21 + data$echo_bmi + data$age + data$diabetes +data$gfr-1)
+summary(model1)
+```
+
+As expected, without intercept, only age and gfr significant (FGF21 no longer)
+
+```{r}
+median=summary(data$FGF21)["Median"]
+
+lower=data[data$FGF21<median,]
+upper=data[data$FGF21>median,]
+
+
+low.table=
+t(cbind(
+mean(lower$race=="asian"),
+mean(lower$race=="black"),
+mean(lower$race=="white"),
+median(lower$age),
+median(lower$echo_bmi),
+mean(lower$diabetes_mellitus)))
+
+up.table=
+t(cbind(
+mean(upper$race=="asian"),
+mean(upper$race=="black"),
+mean(upper$race=="white"),
+median(upper$age),
+median(upper$echo_bmi),
+mean(upper$diabetes_mellitus)))
+
+table1=cbind(low.table,up.table)
+rownames(table1)=c("prop.asian","prop.black","prop.white","median.age","median.bmi","prop.DM")
+colnames(table1)=c("bottom.quartile.FGF21","top.quartile.FGF21")
+head(table1)
+```
+
+
